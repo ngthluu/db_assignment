@@ -73,12 +73,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $query_builder = TRUE;
 
-$current_user = "a";
+$current_user = "default";
 $db_users = [
-	"a" => [
-		"database" => "",
-		"username" => "",
-		"password" => ""
+	"default" => [
+		"database" => "db_ass",
+		"username" => "root",
+		"password" => "mysql"
 	],
 	"b" => [
 		"database" => "",
