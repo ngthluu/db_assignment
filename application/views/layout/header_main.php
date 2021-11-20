@@ -102,7 +102,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <!-- Message End -->
             </a>
             <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item dropdown-footer"><strong>Thanh toán</strong></a>
+            <a href="#" class="dropdown-item dropdown-footer bg-red"><strong>Thanh toán</strong></a>
           </div>
         </li>
         <!-- Notifications Dropdown Menu -->
@@ -115,24 +115,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <i class="far fa-user"></i>
           </a>
           <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-            <span class="dropdown-header">15 Notifications</span>
             <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
-              <i class="fas fa-envelope mr-2"></i> 4 new messages
-              <span class="float-right text-muted text-sm">3 mins</span>
+            <a href="<?= site_url("account/information") ?>" class="dropdown-item">
+              <i class="fas fa-user mr-2"></i> Thông tin cá nhân
             </a>
             <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
-              <i class="fas fa-users mr-2"></i> 8 friend requests
-              <span class="float-right text-muted text-sm">12 hours</span>
+            <a href="<?= site_url("account/payment") ?>" class="dropdown-item">
+              <i class="fas fa-address-card mr-2"></i> Thông tin thanh toán
             </a>
             <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
-              <i class="fas fa-file mr-2"></i> 3 new reports
-              <span class="float-right text-muted text-sm">2 days</span>
+            <a href="<?= site_url("account/orders") ?>" class="dropdown-item">
+              <i class="fas fa-save mr-2"></i> Đơn hàng
             </a>
             <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+            <a href="<?= site_url("account/signin/signout") ?>" class="dropdown-item dropdown-footer bg-red"><strong>Đăng xuất</strong></a>
           </div>
         <?php } else { ?>
         	<a class="nav-link" href="<?= site_url("account/signin"); ?>">

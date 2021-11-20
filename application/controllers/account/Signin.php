@@ -7,4 +7,14 @@ class Signin extends CI_Controller {
 		$this->data['main_view'] = 'client/account/signin';
 		$this->load->view('layout/null', $this->data);
 	}
+
+	public function post_signin() {
+		$_SESSION["id"] = 1;
+		redirect(site_url(""));
+	}
+
+	public function signout() {
+		unset($_SESSION["id"]);
+		redirect(site_url(""));
+	}
 }

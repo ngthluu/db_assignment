@@ -6,7 +6,7 @@
     </div>
     <div class="card-body">
 
-      <form action="" method="post">
+      <form action="<?= site_url("account/signin/post_signin") ?>" method="post">
         <div class="input-group mb-3">
           <div class="input-group-prepend">
             <div class="input-group-text">
