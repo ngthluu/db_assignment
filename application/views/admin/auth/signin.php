@@ -2,7 +2,7 @@
   <!-- /.login-logo -->
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      <a href="<?= site_url() ?>" class="h1"><b>e-Bookstore system</b></a>
+      <a href="<?= site_url("admin/auth/signin") ?>" class="h1"><b>e-Bookstore system</b></a>
     </div>
     <div class="card-body">
 
