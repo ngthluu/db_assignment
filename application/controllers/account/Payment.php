@@ -5,6 +5,6 @@ class Payment extends CI_Controller {
 
 	public function index() {
 		$this->data['main_view'] = 'client/account/payment';
-		$this->load->view('layout/main', $this->data);
+		$this->load->view('layout/client/main', $this->data);
 	}
 }
