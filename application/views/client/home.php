@@ -5,13 +5,12 @@
       <div class="container">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0"> Top Navigation <small>Example 3.0</small></h1>
+            <h1 class="m-0"> Sản phẩm </h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item"><a href="#">Layout</a></li>
-              <li class="breadcrumb-item active">Top Navigation</li>
+              <li class="breadcrumb-item active">Sản phẩm</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -23,61 +22,41 @@
     <div class="content">
       <div class="container">
         <div class="row">
-          <div class="col-lg-6">
-            <div class="card">
+        <?php for ($i = 0; $i < 10; $i++) { ?>
+          <div class="col-lg-3">
+            <div class="card card-danger card-outline">
               <div class="card-body">
-                <h5 class="card-title">Card title</h5>
+                <h5 class="card-title mb-2 text-bold">Sách A</h5>
 
                 <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk of the card's
-                  content.
+                  ISBN: 123456789 <br>
+                  Category: ABC
                 </p>
-
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
-              </div>
-            </div>
-
-            <div class="card card-primary card-outline">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk of the card's
-                  content.
-                </p>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
-              </div>
-            </div><!-- /.card -->
-          </div>
-          <!-- /.col-md-6 -->
-          <div class="col-lg-6">
-            <div class="card">
-              <div class="card-header">
-                <h5 class="card-title m-0">Featured</h5>
-              </div>
-              <div class="card-body">
-                <h6 class="card-title">Special title treatment</h6>
-
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
-            </div>
-
-            <div class="card card-primary card-outline">
-              <div class="card-header">
-                <h5 class="card-title m-0">Featured</h5>
-              </div>
-              <div class="card-body">
-                <h6 class="card-title">Special title treatment</h6>
-
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <div class="d-flex">
+                  <button class="btn btn-primary mr-2"><i class="fa fa-minus"></i></button>
+                  <input type="number" class="form-control mr-2" value="0">
+                  <button class="btn btn-primary mr-2"><i class="fa fa-plus"></i></button>
+                  <button class="btn btn-primary mr-2"><i class="fa fa-shopping-cart"></i></button>
+                </div>
               </div>
             </div>
           </div>
-          <!-- /.col-md-6 -->
+          <div class="col-lg-3">
+            <div class="card card-primary card-outline">
+              <div class="card-body">
+                <h5 class="card-title mb-2 text-bold">Sách A</h5>
+
+                <p class="card-text">
+                  ISBN: 123456789 <br>
+                  Category: ABC
+                </p>
+                <div class="d-flex">
+                  <button class="btn btn-primary mr-2">Thuê</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        <?php } ?>
         </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
