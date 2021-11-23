@@ -109,7 +109,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <li class="nav-item dropdown">
         <?php 
         // Logged in
-        if (isset($_SESSION["id"]) && $_SESSION["id"] > 0) { 
+        if (isset($_SESSION["id"])) { 
         ?>
           <a class="nav-link" data-toggle="dropdown" href="#">
             <i class="far fa-user"></i>
