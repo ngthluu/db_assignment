@@ -7,10 +7,18 @@ create procedure ListBooksByPublishedYear(
     in _year int
 )
 begin
-    select book.*
+    select 
+        book.isbn,
+        book.bookname,
+        ANY_VALUE(author.author_name) AS author_name,
+        ANY_VALUE(written.date_release) AS date_release,
+        GROUP_CONCAT(category.cate separator ', ') as category
     from book
     join written on written.isbn = book.isbn
-    where year(written.date_release) = _year;
+    join category on category.isbn = book.isbn
+    join author on author.author_id = written.author_id
+    where year(written.date_release) = _year
+    group by book.isbn;
 end $$
 delimiter ;
 
@@ -96,11 +104,12 @@ create procedure ListAuthorByKeyword(
     in _keyword varchar(255)
 )
 begin
-    select author.*
+    select distinct author.*
     from author
     join written on written.author_id = author.author_id
     join book on book.isbn = written.isbn
-    where book.bookname like CONCAT('%', _keyword, '%'); 
+    where book.bookname like CONCAT('%', _keyword, '%') 
+        OR author.author_name like CONCAT('%', _keyword, '%'); 
 end $$
 delimiter ;
 
@@ -218,5 +227,34 @@ begin
     );
 
     insert into customer (customer_id) values (_userid);
+end $$
+delimiter ;
+
+/* Extra 3: List All Books (home) */
+delimiter $$
+drop procedure if exists ListAllBooks $$
+create procedure ListAllBooks()
+begin
+    select 
+        book.isbn,
+        book.bookname,
+        ANY_VALUE(author.author_name) AS author_name,
+        ANY_VALUE(written.date_release) AS date_release,
+        GROUP_CONCAT(category.cate separator ', ') as category
+    from book
+    join written on written.isbn = book.isbn
+    join category on category.isbn = book.isbn
+    join author on author.author_id = written.author_id
+    group by book.isbn;
+end $$
+delimiter ;
+
+/* Extra 4: List All Authors (home) */
+delimiter $$
+drop procedure if exists ListAllAuthors $$
+create procedure ListAllAuthors()
+begin
+    select author.*
+    from author;
 end $$
 delimiter ;
