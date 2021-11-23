@@ -38,7 +38,7 @@
               <select name="book-category" class="form-control mr-2">
                 <option value="-1">Chọn thể loại</option>
                 <?php foreach ($categories as $category) { ?>
-                  <option <?= isset($_GET["author-category"]) && $_GET["author-category"] == $category->category ? "selected" : "" ?> value="<?= $category->category ?> value="<?= $category->category ?>"><?= $category->category ?></option>
+                  <option <?= isset($_GET["book-category"]) && $_GET["book-category"] == $category->category ? "selected" : "" ?> value="<?= $category->category ?>"><?= $category->category ?></option>
                 <?php } ?>
               </select>
               <button class="btn btn-secondary"><i class="fa fa-search"></i></button>

@@ -63,22 +63,140 @@
       <!-- Main content -->
       <div class="content">
         <div class="container">
+          <div class="mb-3">
+            <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#order-option1">
+              Đã thực hiện
+            </button>
+            <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#order-option2">
+              Gặp sự cố
+            </button>
+            <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#order-option3">
+              Chưa hoàn tất
+            </button>
+            <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#order-option4">
+              Nhiều sách nhất
+            </button>
+            <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#order-option5">
+              TT + điện tử
+            </button>
+          </div>
+          <div class="mb-3" id="orderGroup">
+            <form action="">
+            <div class="collapse <?= isset($_GET["order-done"]) ? "show" : "" ?>" id="order-option1" data-parent="#orderGroup">
+              <div class="form-inline">
+                <input value="<?= isset($_GET["order-done"]) ? $_GET["order-done"] : "" ?>" type="month" class="form-control mr-2" name="order-done" placeholder="">
+                <button class="btn btn-secondary"><i class="fa fa-search"></i></button>
+              </div>
+            </div>
+            </form>
+            <form action="">
+            <div class="collapse <?= isset($_GET["order-error"]) ? "show" : "" ?>" id="order-option2" data-parent="#orderGroup">
+              <div class="form-inline">
+                <input value="<?= isset($_GET["order-error"]) ? $_GET["order-error"] : "" ?>" type="month" class="form-control mr-2" name="order-error" placeholder="">
+                <button class="btn btn-secondary"><i class="fa fa-search"></i></button>
+              </div>
+            </div>
+            </form>
+            <form action="">
+            <div class="collapse <?= isset($_GET["order-notfinish"]) ? "show" : "" ?>" id="order-option3" data-parent="#orderGroup">
+              <div class="form-inline">
+                <input value="<?= isset($_GET["order-notfinish"]) ? $_GET["order-notfinish"] : "" ?>" type="month" class="form-control mr-2" name="order-notfinish" placeholder="">
+                <button class="btn btn-secondary"><i class="fa fa-search"></i></button>
+              </div>
+            </div>
+            </form>
+            <form action="">
+            <div class="collapse <?= isset($_GET["order-mostbook"]) ? "show" : "" ?>" id="order-option4" data-parent="#orderGroup">
+              <div class="form-inline">
+                <input value="<?= isset($_GET["order-mostbook"]) ? $_GET["order-mostbook"] : "" ?>" type="month" class="form-control mr-2" name="order-mostbook" placeholder="">
+                <button class="btn btn-secondary"><i class="fa fa-search"></i></button>
+              </div>
+            </div>
+            </form>
+            <form action="">
+            <div class="collapse <?= isset($_GET["order-ttdt"]) ? "show" : "" ?>" id="order-option5" data-parent="#orderGroup">
+              <div class="form-inline">
+                <input value="<?= isset($_GET["order-ttdt"]) ? $_GET["order-ttdt"] : "" ?>" type="month" class="form-control mr-2" name="order-ttdt" placeholder="">
+                <button class="btn btn-secondary"><i class="fa fa-search"></i></button>
+              </div>
+            </div>
+            </form>
+          </div>
           <div class="row">
-            <div class="col-lg-8">
+            <?php foreach ($orders_list as $order) { ?>
+            <div class="col-lg-6">
               <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-
+                  <h5 class="card-title mb-2">#ORDER001</h5>
                   <p class="card-text">
-                    Some quick example text to build on the card title and make up the bulk of the card's
-                    content.
+                    <strong>Date: </strong> 09/09/2021 <br>
+                    <strong>State: </strong> <label class="badge badge-success">Success</label> <br>
+                    <strong>Method: </strong> Nothing <br>
                   </p>
-
-                  <a href="#" class="card-link">Card link</a>
-                  <a href="#" class="card-link">Another link</a>
                 </div>
               </div>
             </div>
+            <?php } ?>
+          </div>
+          <!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div>
+
+      <div class="content-header">
+        <div class="container">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 class="m-0"> Sách đã mua </h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.content-header -->
+
+      <!-- Main content -->
+      <div class="content">
+        <div class="container">
+          <div class="mb-3">
+            <form action="">
+            <div>
+              <div class="form-inline">
+                <input value="<?= isset($_GET["book-month"]) ? $_GET["book-month"] : "" ?>" type="month" class="form-control mr-2" name="book-month" placeholder="">
+                <select name="book-category" class="form-control mr-2">
+                  <option value="-1">Chọn thể loại</option>
+                  <?php foreach ($categories as $category) { ?>
+                    <option <?= isset($_GET["book-category"]) && $_GET["book-category"] == $category->category ? "selected" : "" ?> value="<?= $category->category ?>"><?= $category->category ?></option>
+                  <?php } ?>
+                </select>
+                <button class="btn btn-secondary"><i class="fa fa-search"></i></button>
+              </div>
+            </div>
+            </form>
+          </div>
+          <div class="row">
+          <?php foreach ($books_list as $book) { ?>
+            <div class="col-lg-3">
+              <div class="card card-danger card-outline">
+                <div class="card-body">
+                  <h5 class="card-title mb-2 text-bold"><?= $book->bookname ?></h5>
+
+                  <p class="card-text">
+                    <strong>ISBN:</strong> <?= $book->isbn ?> <br>
+                    <strong>Category:</strong> <?= $book->category ?> <br>
+                    <strong>Author:</strong> <?= $book->author_name ?> <br>
+                    <strong>Release date: </strong> <?= $book->date_release ?>
+                  </p>
+                  <div class="d-flex">
+                    <button class="btn btn-sm btn-primary mr-2"><i class="fa fa-minus"></i></button>
+                    <input type="number" class="form-control form-control-sm mr-2" value="0">
+                    <button class="btn btn-sm btn-primary mr-2"><i class="fa fa-plus"></i></button>
+                    <button class="btn btn-sm btn-primary mr-2"><i class="fa fa-shopping-cart"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <?php } ?>
           </div>
           <!-- /.row -->
         </div><!-- /.container-fluid -->

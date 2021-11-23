@@ -115,16 +115,14 @@ delimiter ;
 
 /* (ii.14). Xem tổng số sách theo từng thể loại mà mình đã mua trong một tháng. */
 delimiter $$
-drop procedure if exists ListTotalBookByCategoryBuyInMonth $$
-create procedure ListTotalBookByCategoryBuyInMonth(
+drop procedure if exists ListBookByCategoryBuyInMonth $$
+create procedure ListBookByCategoryBuyInMonth(
     in _customerid int,
     in _month int,
-    in _category varchar(255),
-    out _result int
+    in _category varchar(255)
 )
 begin
-    select count(book)
-    into _result
+    select book.*
     from book
     join order_detail on order_detail.isbn = book.isbn
     join s_order on s_order.order_id = order_detail.order_id
