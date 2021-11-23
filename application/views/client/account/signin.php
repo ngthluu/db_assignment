@@ -6,21 +6,13 @@
     </div>
     <div class="card-body">
       <form id="form-submit" action="<?= site_url("account/signin/post_signin") ?>" method="post">
+        <label>Email</label>  
         <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <div class="input-group-text">
-              <span class="fas fa-envelope"></span>
-            </div>
-          </div>
           <input type="email" name="email" class="form-control" placeholder="Email">
           <div class="invalid-feedback"></div>
         </div>
+        <label>Password</label>
         <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <div class="input-group-text">
-              <span class="fas fa-lock"></span>
-            </div>
-          </div>
           <input type="password" name="password" class="form-control" placeholder="Password">
           <div class="invalid-feedback"></div>
         </div>
@@ -50,6 +42,9 @@
     
     $(document).on('submit', "#form-submit", function(e) {
       e.preventDefault();
+
+      $(`input, select, textarea`).removeClass('is-invalid');
+
       var formData = new FormData(this);
       $.ajax({
         url: $(this).attr("action"),
@@ -58,7 +53,7 @@
         processData: false,
         contentType: false,
         success: function(data) {
-          console.log(data);
+          location.reload();
         },
         error: function(data) {
           let response = data.responseJSON;

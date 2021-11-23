@@ -29,14 +29,11 @@ class Signin extends CI_Controller {
 
 		// Check database
 		$this->db = $this->load->database('default', true);
-		$sql = "
-			SELECT * FROM `systemuser` 
-			JOIN `customer` ON `customer`.`customer_id` = `systemuser`.`user_id`
-			WHERE `systemuser`.`email` = ? AND `systemuser`.`pass` = ?
-		";
-		$email = $this->input->post("email");
-		$password = $this->input->post("password");
-		$result = $this->db->query($sql, [$email, hashing($password)]);
+		$sql = "CALL CustomerLogin(?, ?)";
+		$result = $this->db->query($sql, [
+			$this->input->post("email"), 
+			hashing($this->input->post("password"))
+		]);
 
 		if ($result->num_rows() == 0) {
 			// Not existed
