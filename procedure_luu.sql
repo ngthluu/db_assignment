@@ -258,3 +258,13 @@ begin
     from author;
 end $$
 delimiter ;
+
+/* Extra 5: List All Category (home) */
+delimiter $$
+drop procedure if exists ListAllCategories $$
+create procedure ListAllCategories()
+begin
+    select distinct(category.cate) as category
+    from category;
+end $$
+delimiter ;

@@ -28,7 +28,15 @@ class Home extends CI_Controller {
 	}
 
 	private function ListAuthorByCategory($category) {
-		return [];
+		$this->db = $this->load->database('default', true);
+		$sql = "CALL ListAuthorByCategory(?)";
+		$result = $this->db->query($sql, [$category]);
+
+		if ($result->num_rows() == 0) {
+			return [];
+		}
+
+		return $result->result();
 	}
 
 	private function ListAuthorByKeyword($keyword) {
@@ -55,7 +63,21 @@ class Home extends CI_Controller {
 		return $result->result();
 	}
 
+	private function ListAllCategories() {
+		$this->db = $this->load->database('default', true);
+		$sql = "CALL ListAllCategories()";
+		$result = $this->db->query($sql);
+
+		if ($result->num_rows() == 0) {
+			return [];
+		}
+
+		return $result->result();
+	}
+
 	public function index() {
+
+		$this->data["categories"] = $this->ListAllCategories();
 
 		if (isset($_GET["book-category"])) {
 			$this->data["books_list"] = [];
