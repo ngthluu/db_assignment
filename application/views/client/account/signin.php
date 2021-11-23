@@ -5,15 +5,15 @@
       <a href="<?= site_url() ?>" class="h1"><b>e-Bookstore</b></a>
     </div>
     <div class="card-body">
-
-      <form action="<?= site_url("account/signin/post_signin") ?>" method="post">
+      <form id="form-submit" action="<?= site_url("account/signin/post_signin") ?>" method="post">
         <div class="input-group mb-3">
           <div class="input-group-prepend">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
             </div>
           </div>
-          <input type="email" class="form-control" placeholder="Email">
+          <input type="email" name="email" class="form-control" placeholder="Email">
+          <div class="invalid-feedback"></div>
         </div>
         <div class="input-group mb-3">
           <div class="input-group-prepend">
@@ -21,7 +21,8 @@
               <span class="fas fa-lock"></span>
             </div>
           </div>
-          <input type="password" class="form-control" placeholder="Password">
+          <input type="password" name="password" class="form-control" placeholder="Password">
+          <div class="invalid-feedback"></div>
         </div>
         <div class="row">
           <div class="col-6">
@@ -43,3 +44,32 @@
   <!-- /.card -->
 </div>
 <!-- /.login-box -->
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    
+    $(document).on('submit', "#form-submit", function(e) {
+      e.preventDefault();
+      var formData = new FormData(this);
+      $.ajax({
+        url: $(this).attr("action"),
+        type: 'post',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(data) {
+          console.log(data);
+        },
+        error: function(data) {
+          let response = data.responseJSON;
+          for (const [name, message] of Object.entries(response)) {
+            $(`[name='${name}'] ~.invalid-feedback`).html(message);
+            $(`[name='${name}']`).addClass('is-invalid');
+          }
+        }
+      });
+    });
+
+  });
+  
+</script>
