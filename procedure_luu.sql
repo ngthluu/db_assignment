@@ -59,12 +59,19 @@ delimiter $$
 drop procedure if exists ListOrderInMonth $$
 create procedure ListOrderInMonth(
     in _customerid int, 
-    in _month int
+    in _month int,
+    in _year int
 )
 begin
-    select s_order.*
+    select 
+        s_order.*, 
+        count(order_detail.isbn) as book_count
     from s_order
-    where s_order.customer_id = _customerid and month(s_order.created_date) = _month;
+    join order_detail on order_detail.order_id = s_order.order_id
+    where s_order.customer_id = _customerid 
+        and month(s_order.created_date) = _month
+        and year(s_order.created_date) = _year
+    group by s_order.order_id;
 end $$
 delimiter ;
 
@@ -73,14 +80,20 @@ delimiter $$
 drop procedure if exists ListErrorOrderInMonth $$
 create procedure ListErrorOrderInMonth(
     in _customerid int, 
-    in _month int
+    in _month int,
+    in _year int
 )
 begin
-    select s_order.*
+    select 
+        s_order.*,
+        count(order_detail.isbn) as book_count
     from s_order
+    join order_detail on order_detail.order_id = s_order.order_id
     where s_order.customer_id = _customerid 
         and month(s_order.created_date) = _month 
-        and s_order.error_state = 1;
+        and year(s_order.created_date) = _year 
+        and s_order.error_state = "Sự cố"
+    group by s_order.order_id;
 end $$
 delimiter ;
 
@@ -88,13 +101,21 @@ delimiter ;
 delimiter $$
 drop procedure if exists ListNotFinishedOrder $$
 create procedure ListNotFinishedOrder(
-    in _customerid int
+    in _customerid int,
+    in _month int,
+    in _year int
 )
 begin
-    select s_order.*
+    select 
+        s_order.*,
+        count(order_detail.isbn) as book_count
     from s_order
+    join order_detail on order_detail.order_id = s_order.order_id
     where s_order.customer_id = _customerid 
-        and s_order.order_state = 0;
+        and month(s_order.created_date) = _month 
+        and year(s_order.created_date) = _year
+        and s_order.order_state = "Đã hủy"
+    group by s_order.order_id;
 end $$
 delimiter ;
 
@@ -169,21 +190,33 @@ delimiter $$
 drop procedure if exists ListMostBuyBookOrderInMonth $$
 create procedure ListMostBuyBookOrderInMonth(
     in _customerid int,
-    in _month int
+    in _month int,
+    in _year int
 )
 begin
-    select t.*, max(t.book_count)
-    from (
-        select 
-            s_order.*, 
-            count(order_detail.isbn) as book_count
-        from s_order
-        join order_detail on order_detail.order_id = s_order.order_id
-        where s_order.customer_id = _customerid 
-            and month(s_order.created_date) = _month
-        group by s_order.order_id
-    ) as t
-    group by t.order_id;
+    select
+        s_order.*, 
+        count(order_detail.isbn) as book_count
+    from s_order
+    join order_detail on order_detail.order_id = s_order.order_id
+    where s_order.customer_id = _customerid 
+        and month(s_order.created_date) = _month
+        and year(s_order.created_date) = _year
+    group by s_order.order_id
+    having book_count = (
+        select max(t.book_count)
+        from (
+            select
+                s_order.*, 
+                count(order_detail.isbn) as book_count
+            from s_order
+            join order_detail on order_detail.order_id = s_order.order_id
+            where s_order.customer_id = _customerid 
+                and month(s_order.created_date) = _month
+                and year(s_order.created_date) = _year
+            group by s_order.order_id
+        ) as t
+    );
 end $$
 delimiter ;
 
@@ -192,11 +225,15 @@ delimiter $$
 drop procedure if exists ListBothTradAndElecOrderInMonth $$
 create procedure ListBothTradAndElecOrderInMonth(
     in _customerid int,
-    in _month int
+    in _month int,
+    in _year int
 )
 begin
-    select s_order.*
+    select 
+        s_order.*,
+        count(order_detail.isbn) as book_count
     from s_order
+    join order_detail on order_detail.order_id = s_order.order_id
     where s_order.order_id in (
         (
             select order_detail.order_id
@@ -209,7 +246,8 @@ begin
             from order_detail
             where order_detail.isbn in (select isbn from trad_book)
         )
-    );
+    )
+    group by s_order.order_id;
 end $$
 delimiter ;
 
@@ -319,5 +357,22 @@ begin
         where s_order.customer_id = _customerid
     )
     group by book.isbn;
+end $$
+delimiter ;
+
+/* (ii.16). ListAllBuyOrders */
+delimiter $$
+drop procedure if exists ListAllBuyOrders $$
+create procedure ListAllBuyOrders(
+    in _customerid int
+)
+begin
+    select 
+        s_order.*,
+        count(order_detail.isbn) as book_count
+    from s_order
+    join order_detail on order_detail.order_id = s_order.order_id
+    where s_order.customer_id = _customerid
+    group by s_order.order_id;
 end $$
 delimiter ;

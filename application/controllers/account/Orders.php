@@ -39,10 +39,10 @@ class Orders extends USER_Controller {
 		return $result->result();
 	}
 
-	private function ListOrderInMonth($month) {
+	private function ListOrderInMonth($month, $year) {
 		$this->db = $this->load->database('default', true);
-		$sql = "CALL ListOrderInMonth(?, ?)";
-		$result = $this->db->query($sql, [$_SESSION['id'], $month]);
+		$sql = "CALL ListOrderInMonth(?, ?, ?)";
+		$result = $this->db->query($sql, [$_SESSION['id'], $month, $year]);
 
 		if ($result->num_rows() == 0) {
 			return [];
@@ -51,10 +51,10 @@ class Orders extends USER_Controller {
 		return $result->result();
 	}
 
-	private function ListErrorOrderInMonth($month) {
+	private function ListErrorOrderInMonth($month, $year) {
 		$this->db = $this->load->database('default', true);
-		$sql = "CALL ListErrorOrderInMonth(?, ?)";
-		$result = $this->db->query($sql, [$_SESSION['id'], $month]);
+		$sql = "CALL ListErrorOrderInMonth(?, ?, ?)";
+		$result = $this->db->query($sql, [$_SESSION['id'], $month, $year]);
 
 		if ($result->num_rows() == 0) {
 			return [];
@@ -63,9 +63,45 @@ class Orders extends USER_Controller {
 		return $result->result();
 	}
 
-	private function ListNotFinishedOrder() {
+	private function ListNotFinishedOrder($month, $year) {
 		$this->db = $this->load->database('default', true);
-		$sql = "CALL ListNotFinishedOrder(?)";
+		$sql = "CALL ListNotFinishedOrder(?, ?, ?)";
+		$result = $this->db->query($sql, [$_SESSION['id'], $month, $year]);
+
+		if ($result->num_rows() == 0) {
+			return [];
+		}
+
+		return $result->result();
+	}
+
+	private function ListMostBuyBookOrderInMonth($month, $year) {
+		$this->db = $this->load->database('default', true);
+		$sql = "CALL ListMostBuyBookOrderInMonth(?, ?, ?)";
+		$result = $this->db->query($sql, [$_SESSION['id'], $month, $year]);
+
+		if ($result->num_rows() == 0) {
+			return [];
+		}
+
+		return $result->result();
+	}
+
+	private function ListBothTradAndElecOrderInMonth($month, $year) {
+		$this->db = $this->load->database('default', true);
+		$sql = "CALL ListBothTradAndElecOrderInMonth(?, ?, ?)";
+		$result = $this->db->query($sql, [$_SESSION['id'], $month, $year]);
+
+		if ($result->num_rows() == 0) {
+			return [];
+		}
+
+		return $result->result();
+	}
+
+	private function ListAllBuyOrders() {
+		$this->db = $this->load->database('default', true);
+		$sql = "CALL ListAllBuyOrders(?)";
 		$result = $this->db->query($sql, [$_SESSION['id']]);
 
 		if ($result->num_rows() == 0) {
@@ -73,34 +109,6 @@ class Orders extends USER_Controller {
 		}
 
 		return $result->result();
-	}
-
-	private function ListMostBuyBookOrderInMonth($month) {
-		$this->db = $this->load->database('default', true);
-		$sql = "CALL ListMostBuyBookOrderInMonth(?, ?)";
-		$result = $this->db->query($sql, [$_SESSION['id'], $month]);
-
-		if ($result->num_rows() == 0) {
-			return [];
-		}
-
-		return $result->result();
-	}
-
-	private function ListBothTradAndElecOrderInMonth($month) {
-		$this->db = $this->load->database('default', true);
-		$sql = "CALL ListBothTradAndElecOrderInMonth(?)";
-		$result = $this->db->query($sql, [$_SESSION['id'], $month]);
-
-		if ($result->num_rows() == 0) {
-			return [];
-		}
-
-		return $result->result();
-	}
-
-	private function ListAllBuyOrder() {
-		return [];
 	}
 
 	private function ListAllCategories() {
@@ -120,26 +128,32 @@ class Orders extends USER_Controller {
 		$this->data["categories"] = $this->ListAllCategories();
 
 		if (isset($_GET["order-done"]) && $_GET["order-done"] != "") {
-			$month = $_GET["order-done"];
-			$this->data["orders_list"] = $this->ListOrderInMonth($month);
+			$month = explode("-", $_GET["order-done"])[1];
+			$year = explode("-", $_GET["order-done"])[0];
+			$this->data["orders_list"] = $this->ListOrderInMonth($month, $year);
 		}
 		else if (isset($_GET["order-error"]) && $_GET["order-error"] != "") {
-			$month = $_GET["order-error"];
-			$this->data["orders_list"] = $this->ListErrorOrderInMonth($month);
+			$month = explode("-", $_GET["order-error"])[1];
+			$year = explode("-", $_GET["order-error"])[0];
+			$this->data["orders_list"] = $this->ListErrorOrderInMonth($month, $year);
 		} 
 		else if (isset($_GET["order-notfinish"]) && $_GET["order-notfinish"] != "") {
-			$this->data["orders_list"] = $this->ListNotFinishedOrder();
+			$month = explode("-", $_GET["order-notfinish"])[1];
+			$year = explode("-", $_GET["order-notfinish"])[0];
+			$this->data["orders_list"] = $this->ListNotFinishedOrder($month, $year);
 		} 
 		else if (isset($_GET["order-mostbook"]) && $_GET["order-mostbook"] != "") {
-			$month = $_GET["order-mostbook"];
-			$this->data["orders_list"] = $this->ListMostBuyBookOrderInMonth($month);
+			$month = explode("-", $_GET["order-mostbook"])[1];
+			$year = explode("-", $_GET["order-mostbook"])[0];
+			$this->data["orders_list"] = $this->ListMostBuyBookOrderInMonth($month, $year);
 		} 
 		else if (isset($_GET["order-ttdt"]) && $_GET["order-ttdt"] != "") {
-			$month = $_GET["order-ttdt"];
-			$this->data["orders_list"] = $this->ListBothTradAndElecOrderInMonth($month);
+			$month = explode("-", $_GET["order-ttdt"])[1];
+			$year = explode("-", $_GET["order-ttdt"])[0];
+			$this->data["orders_list"] = $this->ListBothTradAndElecOrderInMonth($month, $year);
 		} 
 		else {
-			$this->data["orders_list"] = $this->ListAllBuyOrder();
+			$this->data["orders_list"] = $this->ListAllBuyOrders();
 		}
 
 		if (isset($_GET["book-month"]) && $_GET["book-month"] != "") {

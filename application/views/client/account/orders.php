@@ -127,11 +127,24 @@
             <div class="col-lg-6">
               <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title mb-2">#ORDER001</h5>
+                  <h5 class="card-title mb-2">#ORDER<?= $order->order_id?></h5>
                   <p class="card-text">
-                    <strong>Date: </strong> 09/09/2021 <br>
-                    <strong>State: </strong> <label class="badge badge-success">Success</label> <br>
-                    <strong>Method: </strong> Nothing <br>
+                    <strong>Date: </strong> <?= $order->created_date ?> <br>
+                    <strong>State: </strong>
+                      <?php if ($order->order_state == "Đã hủy") { ?>
+                      <label class="badge badge-danger"><?= $order->order_state ?></label> 
+                      <?php } else { ?>
+                      <label class="badge badge-success"><?= $order->order_state ?></label> 
+                      <?php } ?>
+
+                      <?php if ($order->error_state == "Sự cố") { ?>
+                      <label class="badge badge-danger"><?= $order->error_state ?></label> 
+                      <?php } else { ?>
+                      <label class="badge badge-success"><?= $order->error_state ?></label> 
+                      <?php } ?>
+                    <br>
+                    <strong>Method: </strong> <?= $order->method ?> <br>
+                    <strong>Books number: </strong> <?= $order->book_count ?> <br>
                   </p>
                 </div>
               </div>
