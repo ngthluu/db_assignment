@@ -1,3 +1,9 @@
+<?php 
+// Get cart info
+$CI = &get_instance();
+$CI->load->model("Cart_model");
+?>
+
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -31,85 +37,68 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse order-3" id="navbarCollapse">
-        <!-- SEARCH FORM -->
-        <form class="form-inline ml-0 ml-md-3">
-          <div class="input-group input-group-sm">
-            <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-            <div class="input-group-append">
-              <button class="btn btn-navbar" type="submit">
-                <i class="fas fa-search"></i>
-              </button>
-            </div>
-          </div>
-        </form>
-      </div>
-
       <!-- Right navbar links -->
       <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
         <!-- Messages Dropdown Menu -->
         <li class="nav-item dropdown">
           <a class="nav-link" data-toggle="dropdown" href="#">
             <i class="fas fa-shopping-cart"></i>
-            <span class="badge badge-danger navbar-badge">3</span>
+            <span class="badge badge-danger navbar-badge"><?= $CI->Cart_model->get_total_items() ?></span>
           </a>
           <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-            <a href="#" class="dropdown-item">
-              <!-- Message Start -->
-              <div class="media">
-                <img src="<?= site_url("assets/adminlte/dist/img/user1-128x128.jpg"); ?>" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-                <div class="media-body">
-                  <h3 class="dropdown-item-title">
-                    Brad Diesel
-                    <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                  </h3>
-                  <p class="text-sm">Call me whenever you can...</p>
-                  <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+            <?php 
+            if (!$CI->Cart_model->cart_empty()) {
+              $items = $CI->Cart_model->get_cart_items();
+              $books_list = $items->books_list;
+              $rent_list = $items->rent_list;
+              foreach ($books_list as $item) {
+            ?>
+              <div class="p-2">
+                <!-- Message Start -->
+                <div class="media">
+                  <div class="media-body">
+                    <h3 class="dropdown-item-title">
+                      <strong><?= $item->bookname ?></strong>
+                    </h3>
+                    <p>
+                    ISBN: <?= $item->isbn ?> <br>
+                    Price: <?= $item->price ?>; Quantity: <?= $item->quantity ?>
+                    </p>
+                  </div>
                 </div>
+                <!-- Message End -->
               </div>
-              <!-- Message End -->
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
-              <!-- Message Start -->
-              <div class="media">
-                <img src="<?= site_url("assets/adminlte/dist/img/user8-128x128.jpg"); ?>" alt="User Avatar" class="img-size-50 img-circle mr-3">
-                <div class="media-body">
-                  <h3 class="dropdown-item-title">
-                    John Pierce
-                    <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
-                  </h3>
-                  <p class="text-sm">I got your message bro</p>
-                  <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+              <div class="dropdown-divider"></div>
+            <?php } foreach ($rent_list as $item) { ?>
+              <div class="p-2 bg-primary">
+                <!-- Message Start -->
+                <div class="media">
+                  <div class="media-body">
+                    <h3 class="dropdown-item-title">
+                      <strong><?= $item->bookname ?></strong>
+                    </h3>
+                    <p>
+                    ISBN: <?= $item->isbn ?> <br>
+                    Rent Price: <?= $item->rent_price ?>
+                    </p>
+                  </div>
                 </div>
+                <!-- Message End -->
               </div>
-              <!-- Message End -->
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
-              <!-- Message Start -->
-              <div class="media">
-                <img src="<?= site_url("assets/adminlte/dist/img/user3-128x128.jpg"); ?>" alt="User Avatar" class="img-size-50 img-circle mr-3">
-                <div class="media-body">
-                  <h3 class="dropdown-item-title">
-                    Nora Silvester
-                    <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
-                  </h3>
-                  <p class="text-sm">The subject goes here</p>
-                  <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                </div>
-              </div>
-              <!-- Message End -->
-            </a>
-            <div class="dropdown-divider"></div>
+              <div class="dropdown-divider"></div>
+            <?php } ?>
             <a href="#" class="dropdown-item dropdown-footer bg-red"><strong>Thanh toán</strong></a>
+            <?php } else { ?>
+              <div class="dropdown-item dropdown-footer"><strong>Giỏ hàng trống</strong></div>
+            <?php } ?>
+            
           </div>
         </li>
         <!-- Notifications Dropdown Menu -->
         <li class="nav-item dropdown">
         <?php 
         // Logged in
-        if (isset($_SESSION["id"]) && $_SESSION["id"] > 0) { 
+        if (isset($_SESSION["id"])) { 
         ?>
           <a class="nav-link" data-toggle="dropdown" href="#">
             <i class="far fa-user"></i>
