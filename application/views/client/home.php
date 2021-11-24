@@ -85,11 +85,11 @@
                   <strong>Author:</strong> <?= $book->author_name ?> <br>
                   <strong>Release date: </strong> <?= $book->date_release ?>
                 </p>
-                <div class="d-flex">
-                  <button class="btn btn-sm btn-primary mr-2"><i class="fa fa-minus"></i></button>
-                  <input type="number" class="form-control form-control-sm mr-2" value="0">
-                  <button class="btn btn-sm btn-primary mr-2"><i class="fa fa-plus"></i></button>
-                  <button class="btn btn-sm btn-primary mr-2"><i class="fa fa-shopping-cart"></i></button>
+                <div class="d-flex" data-isbn="<?= $book->isbn?>">
+                  <button class="btn-minus btn btn-sm btn-primary mr-2"><i class="fa fa-minus"></i></button>
+                  <input type="number" min="0" class="quantity form-control form-control-sm mr-2" value="0">
+                  <button class="btn-plus btn btn-sm btn-primary mr-2"><i class="fa fa-plus"></i></button>
+                  <button class="btn-add-cart btn btn-sm btn-primary mr-2"><i class="fa fa-shopping-cart"></i></button>
                 </div>
               </div>
             </div>
@@ -166,3 +166,33 @@
     <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    
+    $(document).on('click', ".btn-plus", function(e) {
+      e.preventDefault();
+      let quantity = $(this).closest(".d-flex").find(".quantity").val();
+      $(this).closest(".d-flex").find(".quantity").val(parseInt(quantity) + 1);
+    });
+
+    $(document).on('click', ".btn-minus", function(e) {
+      e.preventDefault();
+      let quantity = $(this).closest(".d-flex").find(".quantity").val();
+      if (quantity > 0) {
+        $(this).closest(".d-flex").find(".quantity").val(parseInt(quantity) - 1);
+      }
+    });
+
+    $(document).on('click', ".btn-add-cart", function(e) {
+      e.preventDefault();
+      let isbn = $(this).closest(".d-flex").attr("data-isbn");
+      let quantity = $(this).closest(".d-flex").find(".quantity").val();
+      let data = { isbn: isbn, quantity: quantity };
+      $.post('<?= site_url("checkout/add_to_cart") ?>', data, function(response) {
+        location.reload();
+      });
+    });
+
+  });
+</script>

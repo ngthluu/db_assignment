@@ -33,7 +33,7 @@ class Signup extends CI_Controller {
 		$this->db = $this->load->database('default', true);
 		$sql = "CALL CustomerSignup(?, ?, ?, ?, ?, ?)";
 
-		$result = $this->db->query($sql, [
+		$query = $this->db->query($sql, [
 			$this->input->post("cmnd"),
 			$this->input->post("lname"),
 			$this->input->post("fname"),
@@ -42,7 +42,7 @@ class Signup extends CI_Controller {
 			hashing($this->input->post("password"))
 		]);
 
-		if (!$result) {
+		if (!$query) {
 			$errors = $this->db->error();
             $this->output
 				->set_status_header(404)
@@ -50,6 +50,9 @@ class Signup extends CI_Controller {
         		->set_output(json_encode(["email" => $errors["message"]]));
 			return;
 		}
+
+		mysqli_next_result($this->db->conn_id); 
+		$query->free_result(); 
 
 		$this->output
 			->set_status_header(200)

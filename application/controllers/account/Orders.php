@@ -6,121 +6,161 @@ class Orders extends USER_Controller {
 	private function ListBookByCategoryBuyInMonth($category, $month, $year) {
 		$this->db = $this->load->database('default', true);
 		$sql = "CALL ListBookByCategoryBuyInMonth(?, ?, ?, ?)";
-		$result = $this->db->query($sql, [$_SESSION['id'], $category, $month, $year]);
+		$query = $this->db->query($sql, [$_SESSION['id'], $category, $month, $year]);
 
-		if ($result->num_rows() == 0) {
+		if ($query->num_rows() == 0) {
 			return [];
 		}
 
-		return $result->result();
+		$result = $query->result();
+		mysqli_next_result($this->db->conn_id); 
+		$query->free_result(); 
+
+		return $result;
 	}
 
 	private function ListBooksBuyInMonth($month, $year) {
 		$this->db = $this->load->database('default', true);
 		$sql = "CALL ListBooksBuyInMonth(?, ?, ?)";
-		$result = $this->db->query($sql, [$_SESSION['id'], $month, $year]);
+		$query = $this->db->query($sql, [$_SESSION['id'], $month, $year]);
 
-		if ($result->num_rows() == 0) {
+		if ($query->num_rows() == 0) {
 			return [];
 		}
 
-		return $result->result();
+		$result = $query->result();
+		mysqli_next_result($this->db->conn_id); 
+		$query->free_result(); 
+
+		return $result;
 	}
 
 	private function ListAllBuyBooks() {
 		$this->db = $this->load->database('default', true);
 		$sql = "CALL ListAllBuyBooks(?)";
-		$result = $this->db->query($sql, [$_SESSION['id']]);
+		$query = $this->db->query($sql, [$_SESSION['id']]);
 
-		if ($result->num_rows() == 0) {
+		if ($query->num_rows() == 0) {
 			return [];
 		}
 
-		return $result->result();
+		$result = $query->result();
+		mysqli_next_result($this->db->conn_id); 
+		$query->free_result(); 
+
+		return $result;
 	}
 
 	private function ListOrderInMonth($month, $year) {
 		$this->db = $this->load->database('default', true);
 		$sql = "CALL ListOrderInMonth(?, ?, ?)";
-		$result = $this->db->query($sql, [$_SESSION['id'], $month, $year]);
+		$query = $this->db->query($sql, [$_SESSION['id'], $month, $year]);
 
-		if ($result->num_rows() == 0) {
+		if ($query->num_rows() == 0) {
 			return [];
 		}
 
-		return $result->result();
+		$result = $query->result();
+		mysqli_next_result($this->db->conn_id); 
+		$query->free_result(); 
+
+		return $result;
 	}
 
 	private function ListErrorOrderInMonth($month, $year) {
 		$this->db = $this->load->database('default', true);
 		$sql = "CALL ListErrorOrderInMonth(?, ?, ?)";
-		$result = $this->db->query($sql, [$_SESSION['id'], $month, $year]);
+		$query = $this->db->query($sql, [$_SESSION['id'], $month, $year]);
 
-		if ($result->num_rows() == 0) {
+		if ($query->num_rows() == 0) {
 			return [];
 		}
 
-		return $result->result();
+		$result = $query->result();
+		mysqli_next_result($this->db->conn_id); 
+		$query->free_result(); 
+
+		return $result;
 	}
 
 	private function ListNotFinishedOrder($month, $year) {
 		$this->db = $this->load->database('default', true);
 		$sql = "CALL ListNotFinishedOrder(?, ?, ?)";
-		$result = $this->db->query($sql, [$_SESSION['id'], $month, $year]);
+		$query = $this->db->query($sql, [$_SESSION['id'], $month, $year]);
 
-		if ($result->num_rows() == 0) {
+		if ($query->num_rows() == 0) {
 			return [];
 		}
 
-		return $result->result();
+		$result = $query->result();
+		mysqli_next_result($this->db->conn_id); 
+		$query->free_result(); 
+
+		return $result;
 	}
 
 	private function ListMostBuyBookOrderInMonth($month, $year) {
 		$this->db = $this->load->database('default', true);
 		$sql = "CALL ListMostBuyBookOrderInMonth(?, ?, ?)";
-		$result = $this->db->query($sql, [$_SESSION['id'], $month, $year]);
+		$query = $this->db->query($sql, [$_SESSION['id'], $month, $year]);
 
-		if ($result->num_rows() == 0) {
+		if ($query->num_rows() == 0) {
 			return [];
 		}
 
-		return $result->result();
+		$result = $query->result();
+		mysqli_next_result($this->db->conn_id); 
+		$query->free_result(); 
+
+		return $result;
 	}
 
 	private function ListBothTradAndElecOrderInMonth($month, $year) {
 		$this->db = $this->load->database('default', true);
 		$sql = "CALL ListBothTradAndElecOrderInMonth(?, ?, ?)";
-		$result = $this->db->query($sql, [$_SESSION['id'], $month, $year]);
+		$query = $this->db->query($sql, [$_SESSION['id'], $month, $year]);
 
-		if ($result->num_rows() == 0) {
+		if ($query->num_rows() == 0) {
 			return [];
 		}
 
-		return $result->result();
+		$result = $query->result();
+		mysqli_next_result($this->db->conn_id); 
+		$query->free_result(); 
+
+		return $result;
 	}
 
 	private function ListAllBuyOrders() {
 		$this->db = $this->load->database('default', true);
 		$sql = "CALL ListAllBuyOrders(?)";
-		$result = $this->db->query($sql, [$_SESSION['id']]);
+		$query = $this->db->query($sql, [$_SESSION['id']]);
 
-		if ($result->num_rows() == 0) {
+		if ($query->num_rows() == 0) {
 			return [];
 		}
 
-		return $result->result();
+		$result = $query->result();
+		mysqli_next_result($this->db->conn_id); 
+		$query->free_result(); 
+
+		return $result;
 	}
 
 	private function ListAllCategories() {
 		$this->db = $this->load->database('default', true);
 		$sql = "CALL ListAllCategories()";
-		$result = $this->db->query($sql);
+		$query = $this->db->query($sql);
 
-		if ($result->num_rows() == 0) {
+		if ($query->num_rows() == 0) {
 			return [];
 		}
 
-		return $result->result();
+		$result = $query->result();
+		mysqli_next_result($this->db->conn_id); 
+		$query->free_result(); 
+
+		return $result;
 	}
 
 	public function index() {

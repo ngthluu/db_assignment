@@ -360,7 +360,7 @@ begin
 end $$
 delimiter ;
 
-/* (ii.16). ListAllBuyOrders */
+/* Extra 7: ListAllBuyOrders */
 delimiter $$
 drop procedure if exists ListAllBuyOrders $$
 create procedure ListAllBuyOrders(

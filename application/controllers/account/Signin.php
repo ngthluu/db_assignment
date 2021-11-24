@@ -30,12 +30,12 @@ class Signin extends CI_Controller {
 		// Check database
 		$this->db = $this->load->database('default', true);
 		$sql = "CALL CustomerLogin(?, ?)";
-		$result = $this->db->query($sql, [
+		$query = $this->db->query($sql, [
 			$this->input->post("email"), 
 			hashing($this->input->post("password"))
 		]);
 
-		if ($result->num_rows() == 0) {
+		if ($query->num_rows() == 0) {
 			// Not existed
 			$this->output
 				->set_status_header(404)
@@ -44,7 +44,10 @@ class Signin extends CI_Controller {
 			return;
 		}
 
-		$user = $result->row();
+		$user = $query->row();
+		mysqli_next_result($this->db->conn_id); 
+		$query->free_result(); 
+		
 		$_SESSION["id"] = $user->user_id;
 		$this->output
 			->set_status_header(200)

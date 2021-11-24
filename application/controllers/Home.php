@@ -6,73 +6,97 @@ class Home extends CI_Controller {
 	private function ListBooksByPublishedYear($year) {
 		$this->db = $this->load->database('default', true);
 		$sql = "CALL ListBooksByPublishedYear(?)";
-		$result = $this->db->query($sql, [$year]);
+		$query = $this->db->query($sql, [$year]);
 
-		if ($result->num_rows() == 0) {
+		if ($query->num_rows() == 0) {
 			return [];
 		}
 
-		return $result->result();
+		$result = $query->result();
+		mysqli_next_result($this->db->conn_id); 
+		$query->free_result(); 
+
+		return $result;
 	}
 
 	private function ListAllBooks() {
 		$this->db = $this->load->database('default', true);
 		$sql = "CALL ListAllBooks()";
-		$result = $this->db->query($sql);
+		$query = $this->db->query($sql);
 
-		if ($result->num_rows() == 0) {
+		if ($query->num_rows() == 0) {
 			return [];
 		}
 
-		return $result->result();
+		$result = $query->result();
+		mysqli_next_result($this->db->conn_id); 
+		$query->free_result(); 
+
+		return $result;
 	}
 
 	private function ListAuthorByCategory($category) {
 		$this->db = $this->load->database('default', true);
 		$sql = "CALL ListAuthorByCategory(?)";
-		$result = $this->db->query($sql, [$category]);
+		$query = $this->db->query($sql, [$category]);
 
-		if ($result->num_rows() == 0) {
+		if ($query->num_rows() == 0) {
 			return [];
 		}
 
-		return $result->result();
+		$result = $query->result();
+		mysqli_next_result($this->db->conn_id); 
+		$query->free_result(); 
+
+		return $result;
 	}
 
 	private function ListAuthorByKeyword($keyword) {
 		$this->db = $this->load->database('default', true);
 		$sql = "CALL ListAuthorByKeyword(?)";
-		$result = $this->db->query($sql, [$keyword]);
+		$query = $this->db->query($sql, [$keyword]);
 
-		if ($result->num_rows() == 0) {
+		if ($query->num_rows() == 0) {
 			return [];
 		}
 
-		return $result->result();
+		$result = $query->result();
+		mysqli_next_result($this->db->conn_id); 
+		$query->free_result(); 
+
+		return $result;
 	}
 
 	private function ListAllAuthors() {
 		$this->db = $this->load->database('default', true);
 		$sql = "CALL ListAllAuthors()";
-		$result = $this->db->query($sql);
+		$query = $this->db->query($sql);
 
-		if ($result->num_rows() == 0) {
+		if ($query->num_rows() == 0) {
 			return [];
 		}
 
-		return $result->result();
+		$result = $query->result();
+		mysqli_next_result($this->db->conn_id); 
+		$query->free_result(); 
+
+		return $result;
 	}
 
 	private function ListAllCategories() {
 		$this->db = $this->load->database('default', true);
 		$sql = "CALL ListAllCategories()";
-		$result = $this->db->query($sql);
+		$query = $this->db->query($sql);
 
-		if ($result->num_rows() == 0) {
+		if ($query->num_rows() == 0) {
 			return [];
 		}
 
-		return $result->result();
+		$result = $query->result();
+		mysqli_next_result($this->db->conn_id); 
+		$query->free_result(); 
+
+		return $result;
 	}
 
 	public function index() {
