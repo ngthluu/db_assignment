@@ -67,25 +67,121 @@
             <div class="col-lg-12">
               <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title"> <?php foreach ($information as $inform) echo $inform->user_id ?></h5>
-
+                <?php foreach ($information as $inform) { ?>
+                  <!-- <h5 class="card-title"> Họ và tên: <? echo $inform->lname . ' '. $inform->fname ?></h5> -->
                   <p class="card-text">
-                    Some quick example text to build on the card title and make up the bulk of the card's
-                    content.
+                  <form action="<?= site_url("account/information/change_information") ?>" method="post">
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Họ</label>
+                        <input type="text" class="form-control" name="lname" placeholder="<?echo $inform->lname ?>">
+                        <div class="invalid-feedback"></div>
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleFormControlInput1">Tên</label>
+                        <input type="text" class="form-control" name="fname" placeholder="<?echo $inform->fname ?>">
+                        <div class="invalid-feedback"></div>
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleFormControlInput1">Chứng minh nhân dân</label>
+                        <input type="email" class="form-control" disabled id="exampleFormControlInput1" placeholder="<?echo $inform->cmnd ?>">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleFormControlInput1">Username</label>
+                        <input type="email" class="form-control" disabled id="exampleFormControlInput1" placeholder="<?echo $inform->username ?>">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleFormControlInput1">Địa chỉ email</label>
+                        <input type="email" class="form-control" disabled id="exampleFormControlInput1" placeholder="<?echo $inform->email ?>">
+                      </div>
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
                   </p>
-
-                  <a href="#" class="card-link">Card link</a>
-                  <a href="#" class="card-link">Another link</a>
+                <?php } ?>
                 </div>
               </div>
             </div>
           </div>
           <!-- /.row -->
+          </div>
         </div><!-- /.container-fluid -->
+        <div class="content-header">
+        <div class="container">
+          <div class="row mb-2">
+            <div class="col-sm-12">
+              <h1 class="m-0"> Đổi mật khẩu </h1>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+
+        <div class="content">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-body">
+                <?php foreach ($information as $inform) { ?>
+                  <p class="card-text">
+                  <form action="<?= site_url("account/information/change_password") ?>" method="post">
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Mật khẩu cũ</label>
+                        <input type="password" class="form-control" name="oldpass" placeholder="">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleFormControlInput1">Mật khẩu mới</label>
+                        <input type="password" class="form-control" name="newpass" placeholder="">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleFormControlInput1">Nhập lại mật khẩu</label>
+                        <input type="password" class="form-control" name="retype" id="exampleFormControlInput1" placeholder="">
+                      </div>
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                  </p>
+                <?php } ?>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /.row -->
+          </div>
+        </div>
+      </div>
       </div>
       <!-- /.content -->
+      
     </div>
   </div>
 
 </div>
 <!-- /.content-wrapper -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    
+    $(document).on('submit', "#form-submit", function(e) {
+      e.preventDefault();
+
+      $(`input, select, textarea`).removeClass('is-invalid');
+
+      var formData = new FormData(this);
+      $.ajax({
+        url: $(this).attr("action"),
+        type: 'post',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(data) {
+          location.reload();
+        },
+        error: function(data) {
+          let response = data.responseJSON;
+          for (const [name, message] of Object.entries(response)) {
+            $(`[name='${name}'] ~.invalid-feedback`).html(message);
+            $(`[name='${name}']`).addClass('is-invalid');
+          }
+        }
+      });
+    });
+
+  });
+  
+</script>

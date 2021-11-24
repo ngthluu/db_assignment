@@ -64,21 +64,23 @@
       <div class="content">
         <div class="container">
           <div class="row">
-            <div class="col-lg-8">
+            <?php foreach ($credits as $credit) { ?>
+            <div class="col-lg-6">
               <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-
+                  <h5 class="card-title"> <? echo strtoupper($credit->bank_name) ?></h5> <br /><hr />
                   <p class="card-text">
-                    Some quick example text to build on the card title and make up the bulk of the card's
-                    content.
-                  </p>
+                  <strong>Card ID: </strong> <?= $credit->card_id ?> <br /> 
+                  <strong>Chi nhánh: </strong> <?= $credit->bank_branch ?> <br /> 
+                  <strong>Ngày hết hạn: </strong> <?= $credit->expired_day ?> <br /> <br />
 
-                  <a href="#" class="card-link">Card link</a>
-                  <a href="#" class="card-link">Another link</a>
+                  <button type="submit" class="btn btn-primary">Chỉnh sửa</button>
+                  <button type="submit" class="btn btn-primary">Xóa</button>
+                  </p>
                 </div>
               </div>
             </div>
+            <?php } ?>
           </div>
           <!-- /.row -->
         </div><!-- /.container-fluid -->
