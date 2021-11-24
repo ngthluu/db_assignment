@@ -26,7 +26,6 @@ class Information extends USER_Controller {
 		$this->db = $this->load->database('default', true);
 		$sql = "CALL GetInformation(?)";
 		$query = $this->db->query($sql, [$_SESSION['id']]);
-
 		if ($query->num_rows() == 0) {
 			return [];
 		}
