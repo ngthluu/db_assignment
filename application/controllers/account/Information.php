@@ -17,7 +17,7 @@ class Information extends USER_Controller {
 		$sql = "CALL UpdateUserInform(?, '', '', '', '' , '', ?)";
 		$query = $this->db->query($sql, [$_SESSION['id'], hashing($this->input->post('newpass'))]);
 
-		mysqli_next_result($this->dc->conn_id);
+		mysqli_next_result($this->db->conn_id);
 
 		$this->index();
 	}
