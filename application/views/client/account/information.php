@@ -70,16 +70,16 @@
                 <?php foreach ($information as $inform) { ?>
                   <!-- <h5 class="card-title"> Họ và tên: <? echo $inform->lname . ' '. $inform->fname ?></h5> -->
                   <p class="card-text">
-                  <form>
+                  <form action="<?= site_url("account/information/change_information") ?>" method="post">
                     <div class="form-group">
                         <label for="exampleFormControlInput1">Họ</label>
-                        <input value="<?= isset($_GET["lname"]) ? $_GET["lname"] : "" ?>" 
-                            type="email" class="form-control" id="exampleFormControlInput1" placeholder="<?echo $inform->lname ?>">
+                        <input type="text" class="form-control" name="lname" placeholder="<?echo $inform->lname ?>">
+                        <div class="invalid-feedback"></div>
                       </div>
                       <div class="form-group">
                         <label for="exampleFormControlInput1">Tên</label>
-                        <input value="<?= isset($_GET["fname"]) ? $_GET["fname"] : "" ?>" 
-                          type="email" class="form-control" id="exampleFormControlInput1" placeholder="<?echo $inform->fname ?>">
+                        <input type="text" class="form-control" name="fname" placeholder="<?echo $inform->fname ?>">
+                        <div class="invalid-feedback"></div>
                       </div>
                       <div class="form-group">
                         <label for="exampleFormControlInput1">Chứng minh nhân dân</label>
@@ -154,3 +154,34 @@
 
 </div>
 <!-- /.content-wrapper -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    
+    $(document).on('submit', "#form-submit", function(e) {
+      e.preventDefault();
+
+      $(`input, select, textarea`).removeClass('is-invalid');
+
+      var formData = new FormData(this);
+      $.ajax({
+        url: $(this).attr("action"),
+        type: 'post',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(data) {
+          location.reload();
+        },
+        error: function(data) {
+          let response = data.responseJSON;
+          for (const [name, message] of Object.entries(response)) {
+            $(`[name='${name}'] ~.invalid-feedback`).html(message);
+            $(`[name='${name}']`).addClass('is-invalid');
+          }
+        }
+      });
+    });
+
+  });
+  
+</script>
