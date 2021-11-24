@@ -78,7 +78,7 @@ $db_users = [
 	"default" => [
 		"database" => "db_ass",
 		"username" => "root",
-		"password" => "mysql"
+		"password" => "huutho-trannguyen-235532"
 	],
 	"b" => [
 		"database" => "",
@@ -96,7 +96,7 @@ $db['default'] = array(
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
-	'db_debug' => (ENVIRONMENT !== 'production'),
+	'db_debug' => FALSE,
 	'cache_on' => FALSE,
 	'cachedir' => '',
 	'char_set' => 'utf8',
