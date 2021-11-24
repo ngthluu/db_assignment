@@ -386,3 +386,18 @@ begin
     group by s_order.order_id;
 end $$
 delimiter ;
+
+/* Extra 8: StaffLogin */
+delimiter $$
+drop procedure if exists StaffLogin $$
+create procedure StaffLogin(
+    in _email varchar(255),
+    in _password varchar(255)
+)
+begin
+    select systemuser.user_id
+    from systemuser
+    join staff ON staff.staff_id = systemuser.user_id
+    where systemuser.email = _email AND systemuser.pass = _password;
+end $$
+delimiter ;
