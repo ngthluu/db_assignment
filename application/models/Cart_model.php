@@ -11,11 +11,15 @@ class Cart_model extends CI_Model {
     public function get_total_items() {
         if ($this->cart_empty()) return 0;
         $total = 0;
-        foreach ($_SESSION["cart"] as $isbn => $quantity) {
-            $total += $quantity;
+        if (!empty($_SESSION["cart"])) {
+            foreach ($_SESSION["cart"] as $isbn => $quantity) {
+                $total += $quantity;
+            }
         }
-        foreach ($_SESSION["cart_rent"] as $isbn) {
-            $total += 1;
+        if (!empty($_SESSION["cart_rent"])) {
+            foreach ($_SESSION["cart_rent"] as $isbn) {
+                $total += 1;
+            }
         }
         return $total;
     }
