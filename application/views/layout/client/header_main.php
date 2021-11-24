@@ -48,8 +48,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
             <?php 
             if (!$CI->Cart_model->cart_empty()) {
-              $cart_items = $CI->Cart_model->get_cart_items();
-              foreach ($cart_items as $item) {
+              $items = $CI->Cart_model->get_cart_items();
+              $books_list = $items->books_list;
+              $rent_list = $items->rent_list;
+              foreach ($books_list as $item) {
             ?>
               <div class="p-2">
                 <!-- Message Start -->
@@ -61,6 +63,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <p>
                     ISBN: <?= $item->isbn ?> <br>
                     Price: <?= $item->price ?>; Quantity: <?= $item->quantity ?>
+                    </p>
+                  </div>
+                </div>
+                <!-- Message End -->
+              </div>
+              <div class="dropdown-divider"></div>
+            <?php } foreach ($rent_list as $item) { ?>
+              <div class="p-2 bg-primary">
+                <!-- Message Start -->
+                <div class="media">
+                  <div class="media-body">
+                    <h3 class="dropdown-item-title">
+                      <strong><?= $item->bookname ?></strong>
+                    </h3>
+                    <p>
+                    ISBN: <?= $item->isbn ?> <br>
+                    Rent Price: <?= $item->rent_price ?>
                     </p>
                   </div>
                 </div>
