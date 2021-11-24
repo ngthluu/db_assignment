@@ -27,14 +27,30 @@ delimiter $$
 drop procedure if exists ListBooksBuyInMonth $$
 create procedure ListBooksBuyInMonth(
     in _customerid int, 
-    in _month int
+    in _month int,
+    in _year int
 )
 begin
-    select book.*
+    select
+        book.isbn,
+        book.bookname,
+        ANY_VALUE(author.author_name) AS author_name,
+        ANY_VALUE(written.date_release) AS date_release,
+        GROUP_CONCAT(category.cate separator ', ') as category
     from book
-    join order_detail on order_detail.isbn = book.isbn
-    join s_order on s_order.order_id = order_detail.order_id
-    where s_order.customer_id = _customerid and month(s_order.created_date) = _month;
+    join written on written.isbn = book.isbn
+    join category on category.isbn = book.isbn
+    join author on author.author_id = written.author_id
+    where book.isbn in (
+        select book.isbn
+        from book
+        join order_detail on order_detail.isbn = book.isbn
+        join s_order on s_order.order_id = order_detail.order_id
+        where s_order.customer_id = _customerid 
+            and month(s_order.created_date) = _month
+            and year(s_order.created_date) = _year
+    )
+    group by book.isbn;
 end $$
 delimiter ;
 
@@ -48,7 +64,7 @@ create procedure ListOrderInMonth(
 begin
     select s_order.*
     from s_order
-    where s_oder.customer_id = _customerid and month(s_oder.created_date) = _month;
+    where s_order.customer_id = _customerid and month(s_order.created_date) = _month;
 end $$
 delimiter ;
 
@@ -62,8 +78,8 @@ create procedure ListErrorOrderInMonth(
 begin
     select s_order.*
     from s_order
-    where s_oder.customer_id = _customerid 
-        and month(s_oder.created_date) = _month 
+    where s_order.customer_id = _customerid 
+        and month(s_order.created_date) = _month 
         and s_order.error_state = 1;
 end $$
 delimiter ;
@@ -77,7 +93,7 @@ create procedure ListNotFinishedOrder(
 begin
     select s_order.*
     from s_order
-    where s_oder.customer_id = _customerid 
+    where s_order.customer_id = _customerid 
         and s_order.order_state = 0;
 end $$
 delimiter ;
@@ -118,18 +134,33 @@ delimiter $$
 drop procedure if exists ListBookByCategoryBuyInMonth $$
 create procedure ListBookByCategoryBuyInMonth(
     in _customerid int,
+    in _category varchar(255),
     in _month int,
-    in _category varchar(255)
+    in _year int
 )
 begin
-    select book.*
+    select
+        book.isbn,
+        book.bookname,
+        ANY_VALUE(author.author_name) AS author_name,
+        ANY_VALUE(written.date_release) AS date_release,
+        GROUP_CONCAT(category.cate separator ', ') as category
     from book
-    join order_detail on order_detail.isbn = book.isbn
-    join s_order on s_order.order_id = order_detail.order_id
+    join written on written.isbn = book.isbn
     join category on category.isbn = book.isbn
-    where s_order.customer_id = _customerid 
-        and month(s_order.created_date) = _month
-        and category.cate = _category;
+    join author on author.author_id = written.author_id
+    where book.isbn in (
+        select book.isbn
+        from book
+        join order_detail on order_detail.isbn = book.isbn
+        join s_order on s_order.order_id = order_detail.order_id
+        join category on category.isbn = book.isbn
+        where s_order.customer_id = _customerid 
+            and month(s_order.created_date) = _month
+            and year(s_order.created_date) = _year
+            and category.cate = _category
+    )
+    group by book.isbn;
 end $$
 delimiter ;
 
@@ -210,12 +241,8 @@ create procedure CustomerSignup(
 )
 begin
 
-    declare _userid varchar(12);
-    set _userid = left(md5(rand()), 12);
-
-    insert into systemuser (user_id, cmnd, lname, fname, email, username, pass)
+    insert into systemuser (cmnd, lname, fname, email, username, pass)
     values (
-        _userid,
         _cmnd,
         _lname,
         _fname,
@@ -224,7 +251,7 @@ begin
         _password
     );
 
-    insert into customer (customer_id) values (_userid);
+    insert into customer (customer_id) values (LAST_INSERT_ID());
 end $$
 delimiter ;
 
@@ -264,5 +291,33 @@ create procedure ListAllCategories()
 begin
     select distinct(category.cate) as category
     from category;
+end $$
+delimiter ;
+
+/* Extra 6: ListAllBuyBooks */
+delimiter $$
+drop procedure if exists ListAllBuyBooks $$
+create procedure ListAllBuyBooks(
+    in _customerid int
+)
+begin
+    select
+        book.isbn,
+        book.bookname,
+        ANY_VALUE(author.author_name) AS author_name,
+        ANY_VALUE(written.date_release) AS date_release,
+        GROUP_CONCAT(category.cate separator ', ') as category
+    from book
+    join written on written.isbn = book.isbn
+    join category on category.isbn = book.isbn
+    join author on author.author_id = written.author_id
+    where book.isbn in (
+        select book.isbn
+        from book
+        join order_detail on order_detail.isbn = book.isbn
+        join s_order on s_order.order_id = order_detail.order_id
+        where s_order.customer_id = _customerid
+    )
+    group by book.isbn;
 end $$
 delimiter ;

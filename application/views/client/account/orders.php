@@ -187,12 +187,6 @@
                     <strong>Author:</strong> <?= $book->author_name ?> <br>
                     <strong>Release date: </strong> <?= $book->date_release ?>
                   </p>
-                  <div class="d-flex">
-                    <button class="btn btn-sm btn-primary mr-2"><i class="fa fa-minus"></i></button>
-                    <input type="number" class="form-control form-control-sm mr-2" value="0">
-                    <button class="btn btn-sm btn-primary mr-2"><i class="fa fa-plus"></i></button>
-                    <button class="btn btn-sm btn-primary mr-2"><i class="fa fa-shopping-cart"></i></button>
-                  </div>
                 </div>
               </div>
             </div>

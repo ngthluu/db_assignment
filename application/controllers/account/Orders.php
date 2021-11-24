@@ -3,10 +3,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Orders extends USER_Controller {
 
-	private function ListBookByCategoryBuyInMonth($category, $month) {
+	private function ListBookByCategoryBuyInMonth($category, $month, $year) {
 		$this->db = $this->load->database('default', true);
-		$sql = "CALL ListBookByCategoryBuyInMonth(?, ?, ?)";
-		$result = $this->db->query($sql, [$_SESSION['id'], $month, $category]);
+		$sql = "CALL ListBookByCategoryBuyInMonth(?, ?, ?, ?)";
+		$result = $this->db->query($sql, [$_SESSION['id'], $category, $month, $year]);
 
 		if ($result->num_rows() == 0) {
 			return [];
@@ -15,10 +15,10 @@ class Orders extends USER_Controller {
 		return $result->result();
 	}
 
-	private function ListBooksBuyInMonth($month) {
+	private function ListBooksBuyInMonth($month, $year) {
 		$this->db = $this->load->database('default', true);
-		$sql = "CALL ListBooksBuyInMonth(?, ?)";
-		$result = $this->db->query($sql, [$_SESSION['id'], $month]);
+		$sql = "CALL ListBooksBuyInMonth(?, ?, ?)";
+		$result = $this->db->query($sql, [$_SESSION['id'], $month, $year]);
 
 		if ($result->num_rows() == 0) {
 			return [];
@@ -28,7 +28,15 @@ class Orders extends USER_Controller {
 	}
 
 	private function ListAllBuyBooks() {
-		return [];
+		$this->db = $this->load->database('default', true);
+		$sql = "CALL ListAllBuyBooks(?)";
+		$result = $this->db->query($sql, [$_SESSION['id']]);
+
+		if ($result->num_rows() == 0) {
+			return [];
+		}
+
+		return $result->result();
 	}
 
 	private function ListOrderInMonth($month) {
@@ -134,14 +142,16 @@ class Orders extends USER_Controller {
 			$this->data["orders_list"] = $this->ListAllBuyOrder();
 		}
 
-		if (isset($_GET["book_month"]) && $_GET["book_month"] != "") {
-			if (isset($_GET["book-category"]) && $_GET["book-category"] > 0) {
+		if (isset($_GET["book-month"]) && $_GET["book-month"] != "") {
+			if (isset($_GET["book-category"]) && $_GET["book-category"] != -1) {
 				$category = $_GET["book-category"];
-				$month = $_GET["book-month"];
-				$this->data["books_list"] = $this->ListBookByCategoryBuyInMonth($category, $month);
+				$month = explode("-", $_GET["book-month"])[1];
+				$year = explode("-", $_GET["book-month"])[0];
+				$this->data["books_list"] = $this->ListBookByCategoryBuyInMonth($category, $month, $year);
 			} else {
-				$month = $_GET["book-month"];
-				$this->data["books_list"] = $this->ListBooksBuyInMonth($month);
+				$month = explode("-", $_GET["book-month"])[1];
+				$year = explode("-", $_GET["book-month"])[0];
+				$this->data["books_list"] = $this->ListBooksBuyInMonth($month, $year);
 			}
 		} else {
 			$this->data["books_list"] = $this->ListAllBuyBooks();
