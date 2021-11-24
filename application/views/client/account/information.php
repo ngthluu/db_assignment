@@ -121,18 +121,18 @@
                 <div class="card-body">
                 <?php foreach ($information as $inform) { ?>
                   <p class="card-text">
-                  <form>
+                  <form action="<?= site_url("account/information/change_password") ?>" method="post">
                     <div class="form-group">
                         <label for="exampleFormControlInput1">Mật khẩu cũ</label>
-                        <input type="password" class="form-control" id="exampleFormControlInput1" placeholder="">
+                        <input type="password" class="form-control" name="oldpass" placeholder="">
                       </div>
                       <div class="form-group">
                         <label for="exampleFormControlInput1">Mật khẩu mới</label>
-                        <input type="password" class="form-control" id="exampleFormControlInput1" placeholder="">
+                        <input type="password" class="form-control" name="newpass" placeholder="">
                       </div>
                       <div class="form-group">
                         <label for="exampleFormControlInput1">Nhập lại mật khẩu</label>
-                        <input type="password" class="form-control" id="exampleFormControlInput1" placeholder="">
+                        <input type="password" class="form-control" name="retype" id="exampleFormControlInput1" placeholder="">
                       </div>
                       <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
