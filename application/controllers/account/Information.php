@@ -2,11 +2,12 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Information extends USER_Controller {
+	// private function changeInformation()
 	private function getInformation() {
 		$this->db = $this->load->database('default', true);
 		$sql = "CALL GetInformation(?)";
 		$query = $this->db->query($sql, [$_SESSION['id']]);
-		
+
 		if ($query->num_rows() == 0) {
 			return [];
 		}

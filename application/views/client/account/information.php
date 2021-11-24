@@ -67,23 +67,88 @@
             <div class="col-lg-12">
               <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title"> <?php foreach ($information as $inform) echo $inform->user_id ?></h5>
-
+                <?php foreach ($information as $inform) { ?>
+                  <!-- <h5 class="card-title"> Họ và tên: <? echo $inform->lname . ' '. $inform->fname ?></h5> -->
                   <p class="card-text">
-                    Some quick example text to build on the card title and make up the bulk of the card's
-                    content.
+                  <form>
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Họ</label>
+                        <input value="<?= isset($_GET["lname"]) ? $_GET["lname"] : "" ?>" 
+                            type="email" class="form-control" id="exampleFormControlInput1" placeholder="<?echo $inform->lname ?>">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleFormControlInput1">Tên</label>
+                        <input value="<?= isset($_GET["fname"]) ? $_GET["fname"] : "" ?>" 
+                          type="email" class="form-control" id="exampleFormControlInput1" placeholder="<?echo $inform->fname ?>">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleFormControlInput1">Chứng minh nhân dân</label>
+                        <input type="email" class="form-control" disabled id="exampleFormControlInput1" placeholder="<?echo $inform->cmnd ?>">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleFormControlInput1">Username</label>
+                        <input type="email" class="form-control" disabled id="exampleFormControlInput1" placeholder="<?echo $inform->username ?>">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleFormControlInput1">Địa chỉ email</label>
+                        <input type="email" class="form-control" disabled id="exampleFormControlInput1" placeholder="<?echo $inform->email ?>">
+                      </div>
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
                   </p>
-
-                  <a href="#" class="card-link">Card link</a>
-                  <a href="#" class="card-link">Another link</a>
+                <?php } ?>
                 </div>
               </div>
             </div>
           </div>
           <!-- /.row -->
+          </div>
         </div><!-- /.container-fluid -->
+        <div class="content-header">
+        <div class="container">
+          <div class="row mb-2">
+            <div class="col-sm-12">
+              <h1 class="m-0"> Đổi mật khẩu </h1>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+
+        <div class="content">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-body">
+                <?php foreach ($information as $inform) { ?>
+                  <p class="card-text">
+                  <form>
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Mật khẩu cũ</label>
+                        <input type="password" class="form-control" id="exampleFormControlInput1" placeholder="">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleFormControlInput1">Mật khẩu mới</label>
+                        <input type="password" class="form-control" id="exampleFormControlInput1" placeholder="">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleFormControlInput1">Nhập lại mật khẩu</label>
+                        <input type="password" class="form-control" id="exampleFormControlInput1" placeholder="">
+                      </div>
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                  </p>
+                <?php } ?>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /.row -->
+          </div>
+        </div>
+      </div>
       </div>
       <!-- /.content -->
+      
     </div>
   </div>
 
