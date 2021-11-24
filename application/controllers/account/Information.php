@@ -13,11 +13,11 @@ class Information extends USER_Controller {
 	}
 
 	public function change_password() {
-		$this->db = $this->load->database('default', true)
-		$sql = "CALL UpdateUserInform(?, '', '', '', '' , '', ?";
+		$this->db = $this->load->database('default', true);
+		$sql = "CALL UpdateUserInform(?, '', '', '', '' , '', ?)";
 		$query = $this->db->query($sql, [$_SESSION['id'], hashing($this->input->post('newpass'))]);
 
-		mysqli_next_result($this->dc->conn_id)
+		mysqli_next_result($this->dc->conn_id);
 
 		$this->index();
 	}
