@@ -83,13 +83,22 @@
                   <strong>ISBN:</strong> <?= $book->isbn ?> <br>
                   <strong>Category:</strong> <?= $book->category ?> <br>
                   <strong>Author:</strong> <?= $book->author_name ?> <br>
-                  <strong>Release date: </strong> <?= $book->date_release ?>
+                  <strong>Release date: </strong> <?= $book->date_release ?> <br> <br>
+                  <?php if ($book->buy_price != NULL) { ?>
+                    <strong>Buy price: </strong> <?= number_format($book->buy_price) ?> <br>
+                    <strong>Rent price: </strong> <?= number_format($book->rent_price) ?> <br>
+                  <?php } else { ?>
+                    <strong>Buy price: </strong> <?= number_format($book->price) ?> <br>
+                  <?php } ?>
                 </p>
                 <div class="d-flex" data-isbn="<?= $book->isbn?>">
                   <button class="btn-minus btn btn-sm btn-primary mr-2"><i class="fa fa-minus"></i></button>
                   <input type="number" min="0" class="quantity form-control form-control-sm mr-2" value="0">
                   <button class="btn-plus btn btn-sm btn-primary mr-2"><i class="fa fa-plus"></i></button>
                   <button class="btn-add-cart btn btn-sm btn-primary mr-2"><i class="fa fa-shopping-cart"></i></button>
+                  <?php if ($book->buy_price != NULL) { ?>
+                    <button class="btn-rent btn btn-sm btn-primary mr-2">Rent</button>
+                  <?php } ?>
                 </div>
               </div>
             </div>
@@ -194,5 +203,13 @@
       });
     });
 
+    $(document).on('click', ".btn-rent", function(e) {
+      e.preventDefault();
+      let isbn = $(this).closest(".d-flex").attr("data-isbn");
+      let data = { isbn: isbn };
+      $.post('<?= site_url("checkout/add_to_cart_rent") ?>', data, function(response) {
+        location.reload();
+      });
+    });
   });
 </script>

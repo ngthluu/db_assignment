@@ -43,7 +43,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <li class="nav-item dropdown">
           <a class="nav-link" data-toggle="dropdown" href="#">
             <i class="fas fa-shopping-cart"></i>
-            <span class="badge badge-danger navbar-badge"><?= $CI->Cart_model->cart_empty() ? 0 : count($_SESSION["cart"]) ?></span>
+            <span class="badge badge-danger navbar-badge"><?= $CI->Cart_model->get_total_items() ?></span>
           </a>
           <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
             <?php 
@@ -51,20 +51,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
               $cart_items = $CI->Cart_model->get_cart_items();
               foreach ($cart_items as $item) {
             ?>
-              <a href="#" class="dropdown-item">
+              <div class="p-2">
                 <!-- Message Start -->
                 <div class="media">
                   <div class="media-body">
                     <h3 class="dropdown-item-title">
-                      ISBN: <?= $isbn ?>; QUANTITY: <?= $quantity ?>
-                      <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
+                      <strong><?= $item->bookname ?></strong>
                     </h3>
-                    <p class="text-sm">Call me whenever you can...</p>
-                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+                    <p>
+                    ISBN: <?= $item->isbn ?> <br>
+                    Price: <?= $item->price ?>; Quantity: <?= $item->quantity ?>
+                    </p>
                   </div>
                 </div>
                 <!-- Message End -->
-              </a>
+              </div>
               <div class="dropdown-divider"></div>
             <?php } ?>
             <a href="#" class="dropdown-item dropdown-footer bg-red"><strong>Thanh toán</strong></a>

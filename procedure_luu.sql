@@ -12,11 +12,16 @@ begin
         book.bookname,
         ANY_VALUE(author.author_name) AS author_name,
         ANY_VALUE(written.date_release) AS date_release,
-        GROUP_CONCAT(category.cate separator ', ') as category
+        GROUP_CONCAT(category.cate separator ', ') as category,
+        trad_book.price,
+        elec_book.rent_price,
+        elec_book.buy_price
     from book
     join written on written.isbn = book.isbn
     join category on category.isbn = book.isbn
     join author on author.author_id = written.author_id
+    left join trad_book on trad_book.isbn = book.isbn
+    left join elec_book on elec_book.isbn = book.isbn
     where year(written.date_release) = _year
     group by book.isbn;
 end $$
@@ -303,11 +308,16 @@ begin
         book.bookname,
         ANY_VALUE(author.author_name) AS author_name,
         ANY_VALUE(written.date_release) AS date_release,
-        GROUP_CONCAT(category.cate separator ', ') as category
+        GROUP_CONCAT(category.cate separator ', ') as category,
+        trad_book.price,
+        elec_book.rent_price,
+        elec_book.buy_price
     from book
     join written on written.isbn = book.isbn
     join category on category.isbn = book.isbn
     join author on author.author_id = written.author_id
+    left join trad_book on trad_book.isbn = book.isbn
+    left join elec_book on elec_book.isbn = book.isbn
     group by book.isbn;
 end $$
 delimiter ;

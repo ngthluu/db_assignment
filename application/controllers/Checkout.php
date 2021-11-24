@@ -17,4 +17,15 @@ class Checkout extends CI_Controller {
             $_SESSION["cart"][$isbn] += intval($quantity);
         }
     }
+
+    public function add_to_cart_rent() {
+        if (!isset($_SESSION["cart_rent"])) {
+            $_SESSION["cart_rent"] = [];
+        }
+
+        $isbn = $this->input->post("isbn");
+        if (!in_array($isbn, $_SESSION["cart_rent"])) {
+            $_SESSION["cart_rent"][] = $isbn;
+        }
+    }
 }
