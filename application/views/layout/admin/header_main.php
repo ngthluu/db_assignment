@@ -69,8 +69,8 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item menu-open">
-            <a href="#" class="nav-link active">
+          <li class="nav-item">
+            <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -87,13 +87,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="<?= site_url("admin/user/update") ?>" class="nav-link">
+                <a href="<?= site_url("admin/user/update") ?>" class="nav-link <?= ($this->router->class == "user" && $this->router->method == "update") ? "active" : "" ?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Cập nhật</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?= site_url("admin/user/statistics") ?>" class="nav-link">
+                <a href="<?= site_url("admin/user/statistics") ?>" class="nav-link <?= ($this->router->class == "user" && $this->router->method == "statistics") ? "active" : "" ?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Thống kê</p>
                 </a>

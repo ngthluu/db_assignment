@@ -48,5 +48,21 @@
 <script src="<?= site_url("assets/adminlte/dist/js/demo.js"); ?>"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="<?= site_url("assets/adminlte/dist/js/pages/dashboard.js"); ?>"></script>
+
+<script>
+$(document).ready(function() {
+    $('.nav-item .nav-treeview').each(function(e) {
+        if ($.trim($(this).html()).length == 0) {
+            $(this).closest('.nav-item').remove();
+        }
+    });
+    $('.nav-header').each(function() {
+        if (!$(this).next().hasClass('nav-item')) {
+            $(this).remove();
+        }
+    });
+    $('.nav-link.active').parents('.nav-item').last().addClass('menu-open');
+});
+</script>
 </body>
 </html>
