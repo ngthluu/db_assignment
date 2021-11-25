@@ -137,7 +137,7 @@ class Home extends CI_Controller {
 			$this->data["books_list"] = $this->ListAllBooks();
 		}
 
-		if (isset($_GET["author-category"])) {
+		if (isset($_GET["author-category"]) && $_GET["author-category"] != "-1") {
 			$category = $_GET["author-category"];
 			$this->data["authors_list"] = $this->ListAuthorByCategory($category);
 		} 
