@@ -78,7 +78,7 @@ $db_users = [
 	"default" => [
 		"database" => "db_ass",
 		"username" => "root",
-		"password" => "123456"
+		"password" => "mysql"
 	],
 	"b" => [
 		"database" => "",

@@ -51,8 +51,8 @@ class Signup extends CI_Controller {
 			return;
 		}
 
-		mysqli_next_result($this->db->conn_id); 
-		$query->free_result(); 
+		$query->free_result();
+		$query->free_result();
 
 		$this->output
 			->set_status_header(200)

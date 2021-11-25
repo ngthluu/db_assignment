@@ -7,8 +7,6 @@ class Information extends USER_Controller {
 		$sql = "CALL UpdateUserInform(?, '', ?, ?, '', '', '')";
 		$query = $this->db->query($sql, [$_SESSION['id'], $this->input->post('lname'), $this->input->post('fname')]);
 
-		mysqli_next_result($this->db->conn_id); 
-
 		$this->index();
 	}
 
@@ -16,8 +14,6 @@ class Information extends USER_Controller {
 		$this->db = $this->load->database('default', true);
 		$sql = "CALL UpdateUserInform(?, '', '', '', '' , '', ?)";
 		$query = $this->db->query($sql, [$_SESSION['id'], hashing($this->input->post('newpass'))]);
-
-		mysqli_next_result($this->db->conn_id);
 
 		$this->index();
 	}

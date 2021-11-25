@@ -3,6 +3,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Home extends CI_Controller {
 
+	private function ListBookByCate($category) {
+		$this->db = $this->load->database('default', true);
+		$sql = "CALL ListBookByCate(?)";
+		$query = $this->db->query($sql, [$category]);
+
+		if ($query->num_rows() == 0) {
+			return [];
+		}
+
+		$result = $query->result();
+		mysqli_next_result($this->db->conn_id); 
+		$query->free_result(); 
+
+		return $result;
+	}
+
 	private function ListBooksByPublishedYear($year) {
 		$this->db = $this->load->database('default', true);
 		$sql = "CALL ListBooksByPublishedYear(?)";
@@ -103,8 +119,9 @@ class Home extends CI_Controller {
 
 		$this->data["categories"] = $this->ListAllCategories();
 
-		if (isset($_GET["book-category"])) {
-			$this->data["books_list"] = [];
+		if (isset($_GET["book-category"]) && $_GET["book-category"] != "-1") {
+			$category = $_GET["book-category"];
+			$this->data["books_list"] = $this->ListBookByCate($category);
 		} 
 		else if (isset($_GET["book-author"])) {
 			$this->data["books_list"] = [];
